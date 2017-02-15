@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Feeds extends CI_Model {
+class Feed extends CI_Model {
 
     function __construct() {
         $this->tableName = 'newsfeed';
