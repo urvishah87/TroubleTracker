@@ -15,7 +15,7 @@ class Category extends CI_Model {
      * @returns array categories   
      */
     public function getAllCategories() {
-        $this->db->select($this->primaryKey);
+        $this->db->select(array($this->primaryKey,"category_name"));
         $this->db->from($this->tableName);
         $this->db->where('status', 1);
         $catQuery = $this->db->get();
@@ -23,7 +23,7 @@ class Category extends CI_Model {
         $catResult = array();
         if ($catCheck > 0) {
 
-            $catResult = $catQuery->row_array();
+            $catResult = $catQuery->result_array();
         }
         return $catResult;
     }

@@ -16,7 +16,7 @@ $(document).ready(function () {
 //        interval: 6000
 //    })
     function initialize() {
-        
+
         var mapOptions = {
             zoom: 8,
             center: new google.maps.LatLng(-37.818323, 144.967059)
@@ -32,7 +32,7 @@ $(document).ready(function () {
     function getAllfeeds(searchData) {
         $.ajax({
             type: "POST",
-            url: base_url+"home/allFeeds",
+            url: base_url + "home/allFeeds",
             data: searchData,
             success: function (response) {
                 clearMarkers();
@@ -49,20 +49,20 @@ $(document).ready(function () {
     }
 
     function setMarker(feed) {
-        var image = base_url+'assets/img/status_ico/yellow.png';
+        var image = base_url + 'assets/img/status_ico/yellow.png';
         switch (feed['tt_publishstatus']) {
             case '1':
-                image = base_url+'assets/img/status_ico/yellow.png';
+                image = base_url + 'assets/img/status_ico/yellow.png';
                 break;
             case '2':
 
-                image = base_url+'assets/img/status_ico/red.png';
+                image = base_url + 'assets/img/status_ico/red.png';
                 break;
             case '3':
-                image = base_url+'assets/img/status_ico/green.png';
+                image = base_url + 'assets/img/status_ico/green.png';
                 break;
             default:
-                image = base_url+'assets/img/status_ico/yellow.png';
+                image = base_url + 'assets/img/status_ico/yellow.png';
                 break;
 
         }
@@ -76,10 +76,34 @@ $(document).ready(function () {
         });
         var comm = (feed['tt_comments'].length > 20) ? feed['tt_comments'].substring(0, 20) + "..." : feed['tt_comments'];
         var addr = (feed['tt_address'].length > 20) ? feed['tt_address'].substring(0, 20) + "..." : feed['tt_address'];
-        var contentString = "<table cellpadding=0 cellspacing=0 style='padding:0px;'><tr><td> <b>Comment:</b> </td><td>" + comm + "</td></tr>";
-        contentString += "<tr><td> <b>Category:</b> </td><td>" + feed['category'] + "</td></tr>";
+        var cat = (feed['category'] !== null && feed['category'] !== "") ? feed['category'] : "";
+        var img = (feed['tt_image'] !== null && feed['tt_image'] !== "") ? feed['tt_image'] : "no_image.png";
+        var status = "Open";
+        switch (feed['tt_publishstatus']) {
+            case 2:
+                status = "In Progress";
+                break;
+            case 3:
+                status = "Compelete";
+                break;
+            case 4:
+                status = "Rejected";
+                break;
+            default:
+                status = "Open";
+                break;
+        }
+
+        var contentString = "<table cellpadding=0 cellspacing=0 style='padding:0px;' border=1>";
+        contentString += "<tr><td colspan=2><img src='" + base_url + "uploads/" + img + "' style='height: 100px;width: 120px;' />";
+        contentString += "<tr><td> <b>Description:</b> </td><td>" + comm + "</td></tr>";
+        contentString += "<tr><td> <b>Category:</b> </td><td>" + cat + "</td></tr>";
         contentString += "<tr><td> <b>Address: </b></td><td>" + addr + "</td></tr>";
-        contentString += "<tr><td colspan=2 ><a style='float:right;' href='view_feed?i=" + feed['tt_feed_id'] + "' >+View more</a></td></tr></table>";
+        contentString += "<tr><td> <b>Status: </b></td><td>" + status + "</td></tr>";
+
+
+//        contentString += "<tr><td colspan=2 ><a style='float:right;' href='view_feed?i=" + feed['tt_feed_id'] + "' >+View more</a></td></tr>"
+        contentString += "</table>";
         marker.info = new google.maps.InfoWindow({
             //when I add <IMG BORDER="0" ALIGN="Left" SRC="stagleton.jpg"> the maps will not load
             content: contentString

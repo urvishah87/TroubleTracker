@@ -6,7 +6,7 @@ class Home extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('feeds');
+        $this->load->model('feed');
         $this->load->model('category');
     }
 
@@ -19,7 +19,7 @@ class Home extends CI_Controller {
     public function allFeeds() {
 
 
-        $data['feed_data'] = $this->feeds->getFeedsData();
+        $data['feed_data'] = $this->feed->getFeedsData();
         echo json_encode($data['feed_data']);
     }
 
