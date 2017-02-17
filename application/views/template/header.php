@@ -19,24 +19,30 @@
                 <div class="container">
                     <a class="brand">Trouble Tracker</a>
                     <ul class="nav">
-                        <li <?php if ($this->uri->segment(2) == 'home') {
-    echo 'class="active"';
-} ?>>
+                         <li >
+                            <a href="#"> Welcome <?php echo $this->session->userdata("Username"); ?> | </a>
+                        </li>       
+                        <li <?php
+                        if ($this->uri->segment(2) == 'home') {
+                            echo 'class="active"';
+                        }
+                        ?>>
                             <a href="<?php echo base_url(); ?>home">Home</a>
                         </li>
-                        <li <?php if ($this->uri->segment(2) == 'feeds') {
-    echo 'class="active"';
-} ?>>
+                        <li <?php
+                        if ($this->uri->segment(2) == 'feeds') {
+                            echo 'class="active"';
+                        }
+                        ?>>
                             <a href="<?php echo base_url(); ?>feeds">Feeds</a>
                         </li>
 
-                        <li class="dropdown">
-<!--                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $this->session->userdata("Username"); ?> <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li>-->
-                                    <a href="<?php echo base_url(); ?>welcome/logout">Logout</a>
-<!--                                </li>
-                            </ul>-->
+                       
+
+                        <li >
+
+                            <a href="<?php echo base_url(); ?>welcome/logout">Logout</a>
+
                         </li>
                     </ul>
                 </div>

@@ -6,7 +6,7 @@ class Feeds extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        if(!isset($this->session->userdata()) && empty($this->session->userdata())){
+        if (!$this->user->is_logged_in()) {
             redirect("welcome/login");
         }
         $this->load->model('feed');
@@ -15,35 +15,8 @@ class Feeds extends CI_Controller {
 
     public function index() {
 
-        //pagination settings
-        $config['per_page'] = 5;
-        $config['base_url'] = base_url() . 'feeds';
-        $config['use_page_numbers'] = TRUE;
-        $config['uri_segment'] = 2;
-        $config['num_links'] = 20;
-        $config['full_tag_open'] = '<ul>';
-        $config['full_tag_close'] = '</ul>';
-        $config['num_tag_open'] = '<li>';
-        $config['num_tag_close'] = '</li>';
-        $config['cur_tag_open'] = '<li class="active"><a>';
-        $config['cur_tag_close'] = '</a></li>';
-        $config['total_rows'] = $this->feed->getCountFeeds();
-        //initializate the panination helper 
-        $this->pagination->initialize($config);
+        $data['feeds'] = $this->feed->getFeedsData();
 
-        //limit end
-        $page = $this->uri->segment(2);
-
-        //math to get the initial record to be select in the database
-        $limit_end = ($page * $config['per_page']) - $config['per_page'];
-        if ($limit_end < 0) {
-            $limit_end = 0;
-        }
-
-
-        $data['feeds'] = $this->feed->getFeedsData($config['per_page'], $limit_end);
-
-        
         $data['main_content'] = 'feeds';
 
         $this->load->view('template/template', $data);
@@ -59,7 +32,7 @@ class Feeds extends CI_Controller {
             $config['max_height'] = 768;
 
             $this->load->library('upload', $config);
-           
+
             if (isset($_FILES["tt_image"]) && !$this->upload->do_upload('tt_image')) {
                 $error = array('error' => $this->upload->display_errors());
 
@@ -68,7 +41,7 @@ class Feeds extends CI_Controller {
                 $data['error'] = $error;
                 $this->load->view('template/template', $data);
             } else {
-                
+
                 $fdata['upload_data'] = $this->upload->data();
                 if ($this->feed->saveFeed($fdata)) {
                     redirect('feeds/');

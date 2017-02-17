@@ -14,16 +14,12 @@ class Feed extends CI_Model {
      * get all feed data          
      * @returns array feeds data  
      */
-    public function getFeedsData($limit_start = null, $limit_end = null) {
+    public function getFeedsData() {
 
         $sql = "SELECT f.*,c.category_name AS category FROM newsfeed AS f "
                 . "LEFT JOIN categories AS c ON(f.tt_category = c.category_id) "
-                . "WHERE f.tt_publishstatus!=''  "
+                . "WHERE f.tt_publishstatus!='' and f.tt_userId ='".$this->session->userdata("user_id")."' "
                 . "ORDER BY f.tt_updated_time DESC";
-        if (($limit_start) || ($limit_start != null)) {
-            $end_limit = ($limit_end <= 0) ? "" : "," . $limit_end;
-            $sql .= " LIMIT " . $limit_start . $end_limit;
-        }
 
 
         $query = $this->db->query($sql);
@@ -49,7 +45,7 @@ class Feed extends CI_Model {
             $data["tt_timestamp"] = date('Y-m-d H:i:s');
             $data["tt_updated_time"] = date('Y-m-d H:i:s');
             $data['tt_publishstatus'] = (isset($feed_data["tt_publishstatus"]) && !empty($feed_data["tt_publishstatus"])) ? $feed_data["tt_publishstatus"] : 0;
-
+            $data['tt_userId']=$this->session->userdata("user_id");
 
             if ($feed_id = $this->db->insert($this->tableName, $data)) {
                 return true;
