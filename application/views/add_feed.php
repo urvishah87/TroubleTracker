@@ -1,4 +1,5 @@
 <script src="<?php echo base_url(); ?>assets/js/add_feed.js" type="text/javascript" charset="utf-8"></script>
+
 <div class="container top">
 
     <ul class="breadcrumb">
@@ -20,38 +21,30 @@
 
     <?php
     //flash messages
-    if (isset($flash_message)) {
-        if ($flash_message == TRUE) {
-            echo '<div class="alert alert-success">';
-            echo '<a class="close" data-dismiss="alert">×</a>';
-            echo '<strong>Well done!</strong> new product created with success.';
-            echo '</div>';
-        } else {
+    if (isset($error)) {
             echo '<div class="alert alert-error">';
             echo '<a class="close" data-dismiss="alert">×</a>';
-            echo '<strong>Oh snap!</strong> change a few things up and try submitting again.';
+            echo '<strong>'.$error;
             echo '</div>';
-        }
+       
     }
     ?>
 
     <?php
     //form data
-    $attributes = array('class' => 'form-horizontal', 'id' => '');
+    $attributes = array('class' => 'form-horizontal', 'id' => 'frmAddFeed','name'=>'frmAddFeed');
     $options_category = array('' => "Select");
 
     foreach ($categories as $row) {
         $options_category[$row['category_id']] = $row['category_name'];
     }
 
-    //form validation
-    echo validation_errors();
-
+   
     echo form_open_multipart('feeds/addFeed', $attributes);
     ?>
     <fieldset>
         <div class="control-group">
-            <label for="category_id" class="control-label">Category</label>
+            <label for="category_id" class="control-label">Category*</label>
             <div class="controls">
 
                 <?php echo form_dropdown('tt_category', $options_category, set_value('category_id'), 'class="span2"'); ?>
@@ -60,16 +53,16 @@
         </div>
 
         <div class="control-group">
-            <label for="inputError" class="control-label">Address</label>
+            <label for="inputError" class="control-label">Address*</label>
             <div class="controls">
-                <textarea name="tt_address" id="tt_address" required="required"> </textarea>
+                <textarea name="tt_address" id="tt_address" required="required"></textarea>
 
             </div>
         </div>
         <div class="control-group">
-            <label for="inputError" class="control-label">Description</label>
+            <label for="inputError" class="control-label">Description*</label>
             <div class="controls">
-                <textarea name="tt_comment" id="tt_comment" required="required"> </textarea>
+                <textarea name="tt_comment" id="tt_comment" required="required"></textarea>
                   <!--<span class="help-inline">Cost Price</span>-->
             </div>
         </div>          
@@ -84,20 +77,21 @@
             <label for="tt_publishstatus" class="control-label">Status</label>
             <div class="controls">
 
-                <?php 
-                $options_status["1"]="Open";
-                $options_status["2"]="In Progress";
-                $options_status["3"]="Complete";
-                $options_status["4"]="Reject";
-                
-                
-                echo form_dropdown('tt_publishstatus', $options_status, set_value('tt_publishstatus'), 'class="span2"'); ?>
+                <?php
+                $options_status["1"] = "Open";
+                $options_status["2"] = "In Progress";
+                $options_status["3"] = "Complete";
+                $options_status["4"] = "Reject";
+
+
+                echo form_dropdown('tt_publishstatus', $options_status, set_value('tt_publishstatus'), 'class="span2"');
+                ?>
 
             </div>
         </div>
         <input type="hidden" name="tt_lat" id="tt_lat" value="" />
-         <input type="hidden" name="tt_lng" id="tt_lng" value="" />
-        
+        <input type="hidden" name="tt_lng" id="tt_lng" value="" />
+
         <div class = "form-actions">
             <button class = "btn btn-primary" type = "submit" name="btn_feed" id="btn_feed">Save</button>
             <button class = "btn" type = "reset" name="btn_cancel" id="btn_cancel">Cancel</button>

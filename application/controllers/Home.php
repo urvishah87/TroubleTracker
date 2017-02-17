@@ -6,6 +6,9 @@ class Home extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        if(!$this->user->is_logged_in()){
+            redirect("welcome/login");
+        }
         $this->load->model('feed');
         $this->load->model('category');
     }

@@ -6,6 +6,9 @@ class Feeds extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        if(!isset($this->session->userdata()) && empty($this->session->userdata())){
+            redirect("welcome/login");
+        }
         $this->load->model('feed');
         $this->load->model('category');
     }
@@ -48,15 +51,16 @@ class Feeds extends CI_Controller {
 
     public function addFeed() {
         if ($this->input->post()) {
+            $fdata = $this->input->post();
             $config['upload_path'] = "./uploads/";
             $config['allowed_types'] = 'gif|jpg|png';
-            $config['max_size'] = 100000;
-            $config['max_width'] = 10240;
-            $config['max_height'] = 7680;
+            $config['max_size'] = 2048;
+            $config['max_width'] = 1024;
+            $config['max_height'] = 768;
 
             $this->load->library('upload', $config);
-
-            if (!$this->upload->do_upload('tt_image')) {
+           
+            if (isset($_FILES["tt_image"]) && !$this->upload->do_upload('tt_image')) {
                 $error = array('error' => $this->upload->display_errors());
 
                 $data['main_content'] = 'add_feed';
@@ -64,7 +68,7 @@ class Feeds extends CI_Controller {
                 $data['error'] = $error;
                 $this->load->view('template/template', $data);
             } else {
-                $fdata = $this->input->post();
+                
                 $fdata['upload_data'] = $this->upload->data();
                 if ($this->feed->saveFeed($fdata)) {
                     redirect('feeds/');
