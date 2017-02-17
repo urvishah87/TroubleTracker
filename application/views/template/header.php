@@ -3,6 +3,8 @@
     <head>
         <title>Trouble Tracker</title>
         <meta charset="utf-8">
+        <link rel="shortcut icon" href="<?php echo base_url(); ?>favicon.ico" type="image/x-icon">
+        <link rel="icon" href="<?php echo base_url(); ?>favicon.ico" type="image/x-icon">
         <link href="<?php echo base_url(); ?>assets/css/admin/global.css" rel="stylesheet" type="text/css">
         <link href='<?php echo base_url(); ?>assets/css/admin/datepicker.css' rel='stylesheet'>
         <script src="<?php echo base_url(); ?>assets/js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
@@ -19,7 +21,7 @@
                 <div class="container">
                     <a class="brand">Trouble Tracker</a>
                     <ul class="nav">
-                         <li >
+                        <li >
                             <a href="#"> Welcome <?php echo $this->session->userdata("Username"); ?> | </a>
                         </li>       
                         <li <?php
@@ -37,7 +39,7 @@
                             <a href="<?php echo base_url(); ?>feeds">Feeds</a>
                         </li>
 
-                       
+
 
                         <li >
 
