@@ -3,18 +3,13 @@ $(document).ready(function () {
     var map;
     var bounds;
     var markers = [];
-//    $('#postdate').datepicker({
-//    format: 'dd-mm-yyyy'
-//});
+
     $("#linkadv").click(function () {
         $("#postdate").val("");
         $("#txtlocation").val("");
         $("#divAdvSearch").toggle('slow');
     });
 
-//    $('.carousel').carousel({
-//        interval: 6000
-//    })
     function initialize() {
 
         var mapOptions = {

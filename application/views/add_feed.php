@@ -1,5 +1,15 @@
 <script src="<?php echo base_url(); ?>assets/js/add_feed.js" type="text/javascript" charset="utf-8"></script>
-
+<style>
+    /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+    #map{
+        width:300px;height:220px;
+        float:right;
+        right: 15%;
+   /*     top:10%;*/
+        border: 2px solid #333;
+    }
+</style>
 <div class="container top">
 
     <ul class="breadcrumb">
@@ -22,32 +32,33 @@
     <?php
     //flash messages
     if (isset($error)) {
-            echo '<div class="alert alert-error">';
-            echo '<a class="close" data-dismiss="alert">×</a>';
-            echo '<strong>'.$error;
-            echo '</div>';
-       
+        echo '<div class="alert alert-error">';
+        echo '<a class="close" data-dismiss="alert">×</a>';
+        echo '<strong>' . $error;
+        echo '</div>';
     }
     ?>
 
     <?php
     //form data
-    $attributes = array('class' => 'form-horizontal', 'id' => 'frmAddFeed','name'=>'frmAddFeed');
+    $attributes = array('class' => 'form-horizontal', 'id' => 'frmAddFeed', 'name' => 'frmAddFeed');
     $options_category = array('' => "Select");
 
     foreach ($categories as $row) {
         $options_category[$row['category_id']] = $row['category_name'];
     }
 
-   
+
     echo form_open_multipart('feeds/addFeed', $attributes);
     ?>
+     <div id="map" ></div>
     <fieldset>
+       
         <div class="control-group">
             <label for="category_id" class="control-label">Category*</label>
             <div class="controls">
 
-                <?php echo form_dropdown('tt_category', $options_category, set_value('category_id'), 'class="span2"'); ?>
+                <?php echo form_dropdown('tt_category', $options_category, set_value('category_id'), ''); ?>
 
             </div>
         </div>
@@ -56,7 +67,7 @@
             <label for="inputError" class="control-label">Address*</label>
             <div class="controls">
                 <textarea name="tt_address" id="tt_address" required="required"></textarea>
-
+                
             </div>
         </div>
         <div class="control-group">
@@ -84,7 +95,7 @@
                 $options_status["4"] = "Reject";
 
 
-                echo form_dropdown('tt_publishstatus', $options_status, set_value('tt_publishstatus'), 'class="span2"');
+                echo form_dropdown('tt_publishstatus', $options_status, set_value('tt_publishstatus'), '');
                 ?>
 
             </div>
