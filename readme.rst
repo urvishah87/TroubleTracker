@@ -9,7 +9,7 @@ Installation
 *******************
 
 - Copy trouble_tracker folder in xampp/htdocs
-- install db located at trouble_tracker/db/trouble_tracker.sql
+- install db located at TroubleTracker/db/trouble_tracker.sql
 - Run url on browser http://localhost/trouble_tracker
 
 **************************
